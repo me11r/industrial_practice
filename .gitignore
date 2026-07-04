@@ -1,0 +1,29 @@
+# Large model weights (GitHub limit is 100MB, model is 1.1GB)
+ner-kazakh-best/
+ner-kazakh-output/
+model.safetensors
+config.json
+tokenizer.json
+tokenizer_config.json
+training_args.bin
+
+# Datasets (large files)
+IOB2_train.txt
+IOB2_train2.txt
+IOB2_valid.txt
+IOB2_valid2.txt
+IOB2_test.txt
+IOB2_test2.txt
+
+# Python temporary files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+*.docx
+*.pdf

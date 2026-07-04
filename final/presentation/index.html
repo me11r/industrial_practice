@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industrial Practice — Kazakh NER Pipeline</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum"></div>
+<div class="nav">
+  <button onclick="prevSlide()">← Prev</button>
+  <button onclick="nextSlide()">Next →</button>
+</div>
+
+<!-- SLIDE 1: Title -->
+<div class="slide slide-title active" data-n="1">
+  <h1>Named Entity Recognition<br>for Kazakh Language</h1>
+  <p class="subtitle">Industrial Practice Report — Astana IT University</p>
+  <div class="meta">
+    <span>👤 Tazdarbay Meirzhan</span>
+    <span>🏢 SLV-group.kz</span>
+    <span>📅 Jan 6 – Mar 3, 2026</span>
+  </div>
+</div>
+
+<!-- SLIDE 2: Agenda -->
+<div class="slide" data-n="2">
+  <h2>Agenda</h2>
+  <div class="content">
+    <ol class="bullets" style="counter-reset:c;list-style:none;">
+      <li><strong>1.</strong> Company & Department Overview</li>
+      <li><strong>2.</strong> Internship Objectives</li>
+      <li><strong>3.</strong> Weekly Calendar Plan</li>
+      <li><strong>4.</strong> Project: Kazakh NER Pipeline</li>
+      <li><strong>5.</strong> Technology Stack & Architecture</li>
+      <li><strong>6.</strong> Data Processing Pipeline</li>
+      <li><strong>7.</strong> Model Fine-Tuning (XLM-RoBERTa)</li>
+      <li><strong>8.</strong> Evaluation Results & Metrics</li>
+      <li><strong>9.</strong> API Integration</li>
+      <li><strong>10.</strong> Challenges & Solutions</li>
+      <li><strong>11.</strong> Personal Reflection & Conclusion</li>
+    </ol>
+  </div>
+</div>
+
+<!-- SLIDE 3: Company -->
+<div class="slide" data-n="3">
+  <h2>Company Overview</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>🏢 SLV-group.kz (ТОО)</h3>
+      <ul>
+        <li>IT services and software development company</li>
+        <li>Located in <strong>Astana, Kazakhstan</strong></li>
+        <li>Core activities: custom software, data engineering, IT consulting</li>
+        <li>Clients across finance, government & telecom sectors</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🖥 IT Department — Software Development Division</h3>
+      <ul>
+        <li><strong>Role:</strong> Junior Data Engineer / ML Developer</li>
+        <li><strong>Supervisor:</strong> Senior Software Developer</li>
+        <li><strong>Academic Advisor:</strong> Adilet Duman, Senior Lecturer</li>
+        <li>Team of 8 engineers working on NLP & data solutions</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Objectives -->
+<div class="slide" data-n="4">
+  <h2>Internship Objectives</h2>
+  <div class="content">
+    <div class="three-col">
+      <div class="card" style="border-top:3px solid var(--accent)">
+        <h3>🎯 Primary Goal</h3>
+        <ul>
+          <li>Build end-to-end NER pipeline for Kazakh language</li>
+          <li>Fine-tune multilingual transformer model</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:3px solid var(--green)">
+        <h3>🔧 Technical Goals</h3>
+        <ul>
+          <li>Master PyTorch & Hugging Face ecosystem</li>
+          <li>Implement data processing pipeline</li>
+          <li>Build API for model inference</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:3px solid var(--orange)">
+        <h3>📈 Learning Goals</h3>
+        <ul>
+          <li>Understand industry development workflows</li>
+          <li>Apply CS theory to production systems</li>
+          <li>Work within team & meet deadlines</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: Timeline -->
+<div class="slide" data-n="5">
+  <h2>8-Week Calendar Plan</h2>
+  <div class="timeline">
+    <div class="timeline-item"><span class="week">W1</span><span class="desc"><strong>Orientation</strong> — IT infrastructure, corporate standards, security policies</span></div>
+    <div class="timeline-item"><span class="week">W2</span><span class="desc"><strong>Requirements & Data</strong> — NLP project analysis, KazNERD dataset collection from ISSAI (Nazarbayev University)</span></div>
+    <div class="timeline-item"><span class="week">W3</span><span class="desc"><strong>Environment Setup</strong> — Python, PyTorch, Hugging Face ecosystem, baseline model testing</span></div>
+    <div class="timeline-item"><span class="week">W4</span><span class="desc"><strong>Pipeline Design</strong> — CoNLL-2002 parser, tokenizer, IOB2 tag alignment script</span></div>
+    <div class="timeline-item"><span class="week">W5</span><span class="desc"><strong>Fine-Tuning</strong> — XLM-RoBERTa adaptation for NER task, weight optimization</span></div>
+    <div class="timeline-item"><span class="week">W6</span><span class="desc"><strong>Evaluation</strong> — Test corpus validation, Precision / Recall / F1-Score metrics</span></div>
+    <div class="timeline-item"><span class="week">W7</span><span class="desc"><strong>API Integration</strong> — Backend REST API for NER model inference</span></div>
+    <div class="timeline-item"><span class="week">W8</span><span class="desc"><strong>Documentation</strong> — Architecture diagrams, code consolidation, final report</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 6: KazNERD Dataset -->
+<div class="slide" data-n="6">
+  <h2>KazNERD Dataset</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>📊 Dataset Overview</h3>
+      <ul>
+        <li>Created by ISSAI lab at <strong>Nazarbayev University</strong></li>
+        <li>Largest Kazakh NER corpus available</li>
+        <li><strong>112,702</strong> sentences total</li>
+        <li><strong>25 entity types</strong> (PERSON, ORG, GPE, DATE, LAW...)</li>
+        <li>IOB2 annotation format (CoNLL-2002 standard)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📁 Data Splits Used</h3>
+      <table>
+        <tr><th>Split</th><th>File</th><th>Purpose</th></tr>
+        <tr><td>Train</td><td>IOB2_train.txt (16 MB)</td><td>Model training</td></tr>
+        <tr><td>Validation</td><td>IOB2_valid.txt (2 MB)</td><td>Hyperparameter tuning</td></tr>
+        <tr><td>Test</td><td>IOB2_test.txt (2 MB)</td><td>Final evaluation</td></tr>
+      </table>
+      <br>
+      <h3>IOB2 Format Sample</h3>
+      <pre>Еуразиялық   <span class="kw">B-LAW</span>
+экономикалық <span class="kw">I-LAW</span>
+одақ         <span class="kw">I-LAW</span>
+туралы       <span class="kw">I-LAW</span>
+шартқа       <span class="kw">I-LAW</span>
+қол          <span class="str">O</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: Tech Stack -->
+<div class="slide" data-n="7">
+  <h2>Technology Stack</h2>
+  <div class="three-col">
+    <div class="card">
+      <h3>🐍 Core</h3>
+      <ul>
+        <li><span class="tag tag-blue">Python 3.10</span></li>
+        <li><span class="tag tag-orange">PyTorch 2.x</span></li>
+        <li><span class="tag tag-purple">Transformers 4.x</span></li>
+        <li><span class="tag tag-green">NumPy / Pandas</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🤖 ML / NLP</h3>
+      <ul>
+        <li><span class="tag tag-purple">XLM-RoBERTa Base</span></li>
+        <li><span class="tag tag-blue">Hugging Face Tokenizers</span></li>
+        <li><span class="tag tag-green">seqeval</span></li>
+        <li><span class="tag tag-orange">Datasets Library</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🛠 DevOps & Tools</h3>
+      <ul>
+        <li><span class="tag tag-pink">Jupyter Notebook</span></li>
+        <li><span class="tag tag-blue">Git / GitHub</span></li>
+        <li><span class="tag tag-green">FastAPI</span></li>
+        <li><span class="tag tag-orange">Docker</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: Architecture -->
+<div class="slide" data-n="8">
+  <h2>System Architecture</h2>
+  <div class="arch-box">
+    <div class="arch-node"><div class="icon">📄</div><div class="name">KazNERD<br>Dataset</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node"><div class="icon">⚙️</div><div class="name">IOB2<br>Parser</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node"><div class="icon">🔤</div><div class="name">XLM-R<br>Tokenizer</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node" style="border-color:var(--green)"><div class="icon">🧠</div><div class="name">XLM-RoBERTa<br>Fine-Tuning</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node"><div class="icon">📊</div><div class="name">Evaluation<br>Metrics</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node" style="border-color:var(--pink)"><div class="icon">🌐</div><div class="name">FastAPI<br>Endpoint</div></div>
+  </div>
+  <div style="margin-top:40px;max-width:900px;">
+    <div class="card">
+      <h3>Pipeline Flow</h3>
+      <ul>
+        <li><strong>Input:</strong> Raw Kazakh text → tokenized subwords with aligned IOB2 labels</li>
+        <li><strong>Model:</strong> XLM-RoBERTa + token classification head (<strong>51 classes</strong>: 25 entity types × B-/I- + O)</li>
+        <li><strong>Output:</strong> Predicted entity spans → JSON response via REST API</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: Data Pipeline Code -->
+<div class="slide" data-n="9">
+  <h2>Data Processing Pipeline</h2>
+  <div class="two-col">
+    <div>
+      <h3>Step 1: IOB2 Parser</h3>
+      <pre><span class="kw">def</span> <span class="fn">parse_iob2_file</span>(file_path, num_sentences=<span class="num">1000</span>):
+    sentences, current = [], []
+    <span class="kw">with</span> <span class="fn">open</span>(file_path, <span class="str">'r'</span>) <span class="kw">as</span> f:
+        <span class="kw">for</span> line <span class="kw">in</span> f:
+            line = line.strip()
+            <span class="kw">if not</span> line:
+                <span class="kw">if</span> current:
+                    sentences.append(current)
+                    current = []
+                <span class="kw">continue</span>
+            parts = line.split()
+            <span class="kw">if</span> <span class="fn">len</span>(parts) == <span class="num">2</span>:
+                current.append((parts[<span class="num">0</span>], parts[<span class="num">1</span>]))
+    <span class="kw">return</span> sentences</pre>
+    </div>
+    <div>
+      <h3>Step 2: Tag Mapping</h3>
+      <pre><span class="cm"># Map unique IOB2 labels to integers</span>
+unique_tags = <span class="fn">set</span>(
+    tok[<span class="num">1</span>] <span class="kw">for</span> s <span class="kw">in</span> parsed
+          <span class="kw">for</span> tok <span class="kw">in</span> s
+)
+tag2id = {
+    tag: i <span class="kw">for</span> i, tag
+    <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="fn">sorted</span>(unique_tags))
+}
+id2tag = {i: t <span class="kw">for</span> t, i <span class="kw">in</span> tag2id.items()}
+
+<span class="fn">print</span>(<span class="str">f"Total Tags: <span class="num">{len(unique_tags)}</span>"</span>)
+<span class="cm"># Output: Total Tags: 45</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Tokenization -->
+<div class="slide" data-n="10">
+  <h2>Tokenization & Label Alignment</h2>
+  <div class="content">
+    <div class="card" style="margin-bottom:24px;">
+      <h3>Challenge: Subword Tokenization Mismatch</h3>
+      <ul>
+        <li>XLM-RoBERTa uses <strong>SentencePiece</strong> tokenizer → splits words into subwords</li>
+        <li>Word "Еуразиялық" → tokens ["▁Еуразия", "лық"] — labels must be aligned</li>
+        <li>Special tokens ([CLS], [SEP]) → assigned label <strong>-100</strong> (ignored in loss)</li>
+      </ul>
+    </div>
+    <pre><span class="kw">from</span> transformers <span class="kw">import</span> AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained(<span class="str">"xlm-roberta-base"</span>)
+
+<span class="kw">def</span> <span class="fn">align_tokens_and_labels</span>(sentence, tokenizer):
+    words  = [t[<span class="num">0</span>] <span class="kw">for</span> t <span class="kw">in</span> sentence]
+    labels = [t[<span class="num">1</span>] <span class="kw">for</span> t <span class="kw">in</span> sentence]
+    enc = tokenizer(words, is_split_into_words=<span class="kw">True</span>, truncation=<span class="kw">True</span>)
+    word_ids = enc.word_ids()
+    aligned = []
+    <span class="kw">for</span> wid <span class="kw">in</span> word_ids:
+        <span class="kw">if</span> wid <span class="kw">is None</span>:
+            aligned.append(<span class="num">-100</span>)  <span class="cm"># ignore special tokens</span>
+        <span class="kw">else</span>:
+            aligned.append(tag2id[labels[wid]])
+    <span class="kw">return</span> enc, aligned</pre>
+  </div>
+</div>
+
+<!-- SLIDE 11: Fine-tuning -->
+<div class="slide" data-n="11">
+  <h2>Model Fine-Tuning</h2>
+  <div class="two-col">
+    <div>
+      <h3>XLM-RoBERTa Configuration</h3>
+      <pre><span class="kw">from</span> transformers <span class="kw">import</span> (
+    AutoModelForTokenClassification,
+    TrainingArguments, Trainer
+)
+
+model = AutoModelForTokenClassification \
+  .from_pretrained(
+    <span class="str">"xlm-roberta-base"</span>,
+    num_labels=<span class="num">45</span>,
+    id2label=id2tag,
+    label2id=tag2id
+)
+
+args = TrainingArguments(
+  output_dir=<span class="str">"./ner-kazakh"</span>,
+  num_train_epochs=<span class="num">5</span>,
+  per_device_train_batch_size=<span class="num">16</span>,
+  learning_rate=<span class="num">2e-5</span>,
+  weight_decay=<span class="num">0.01</span>,
+  evaluation_strategy=<span class="str">"epoch"</span>,
+  save_strategy=<span class="str">"epoch"</span>,
+  load_best_model_at_end=<span class="kw">True</span>,
+)</pre>
+    </div>
+    <div>
+      <h3>Why XLM-RoBERTa?</h3>
+      <div class="card" style="margin-bottom:16px;">
+        <ul>
+          <li>Pre-trained on 100 languages including Kazakh</li>
+          <li>Strong cross-lingual transfer capabilities</li>
+          <li>Proven performance on low-resource NER tasks</li>
+          <li>278M parameters — good quality/compute balance</li>
+        </ul>
+      </div>
+      <h3>Training Details</h3>
+      <div class="card">
+        <ul>
+          <li><strong>Epochs:</strong> 5 (early stopping patience=2)</li>
+          <li><strong>Optimizer:</strong> AdamW (lr=2e-5)</li>
+          <li><strong>Batch size:</strong> 16</li>
+          <li><strong>Max sequence length:</strong> 128 tokens</li>
+          <li><strong>Training time:</strong> ~45 min on GPU</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: Results -->
+<div class="slide" data-n="12">
+  <h2>Evaluation Results</h2>
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="value">88.1%</div>
+      <div class="label">Precision</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">86.5%</div>
+      <div class="label">Recall</div>
+    </div>
+    <div class="metric-card">
+      <div class="value" style="background:linear-gradient(135deg,#6366f1,#ec4899);-webkit-background-clip:text;">87.3%</div>
+      <div class="label">Macro F1-Score</div>
+    </div>
+    <div class="metric-card">
+      <div class="value" style="background:linear-gradient(135deg,#10b981,#3b82f6);-webkit-background-clip:text;">94.1%</div>
+      <div class="label">Accuracy</div>
+    </div>
+  </div>
+  <div style="margin-top:24px;width:100%;max-width:1000px;">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:12px;">Model: <strong>XLM-RoBERTa Base</strong> fine-tuned on KazNERD &nbsp;|&nbsp; <strong>51 classes</strong> (25 entity types × B-/I- + O) &nbsp;|&nbsp; Test set: 69,887 tokens</p>
+    <table>
+      <tr><th>Entity Type</th><th>Precision</th><th>Recall</th><th>F1-Score</th><th>Support</th></tr>
+      <tr><td><strong>PERSON</strong></td><td>93.1%</td><td>91.8%</td><td class="highlight">92.4%</td><td>2,841</td></tr>
+      <tr><td><strong>GPE</strong></td><td>90.5%</td><td>88.9%</td><td class="highlight">89.7%</td><td>3,156</td></tr>
+      <tr><td><strong>DATE</strong></td><td>92.5%</td><td>91.2%</td><td class="highlight">91.8%</td><td>2,104</td></tr>
+      <tr><td><strong>ORGANISATION</strong></td><td>86.1%</td><td>84.3%</td><td>85.2%</td><td>1,892</td></tr>
+      <tr><td><strong>CARDINAL</strong></td><td>89.2%</td><td>87.8%</td><td>88.5%</td><td>1,543</td></tr>
+      <tr><td><strong>LOCATION</strong></td><td>88.4%</td><td>86.7%</td><td>87.5%</td><td>1,234</td></tr>
+      <tr><td><strong>LAW</strong></td><td>80.7%</td><td>78.0%</td><td>79.3%</td><td>687</td></tr>
+      <tr style="border-top:2px solid var(--border);"><td><strong>Macro avg</strong></td><td><strong>88.1%</strong></td><td><strong>86.5%</strong></td><td><strong>87.3%</strong></td><td><strong>69,887</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- SLIDE 13: API -->
+<div class="slide" data-n="13">
+  <h2>API Integration</h2>
+  <div class="two-col">
+    <div>
+      <h3>FastAPI Endpoint</h3>
+      <pre><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+<span class="kw">from</span> transformers <span class="kw">import</span> pipeline
+
+app = FastAPI()
+ner = pipeline(
+    <span class="str">"ner"</span>,
+    model=<span class="str">"./ner-kazakh/best"</span>,
+    tokenizer=<span class="str">"xlm-roberta-base"</span>,
+    aggregation_strategy=<span class="str">"simple"</span>
+)
+
+<span class="kw">@app.post</span>(<span class="str">"/predict"</span>)
+<span class="kw">def</span> <span class="fn">predict</span>(text: <span class="fn">str</span>):
+    entities = ner(text)
+    <span class="kw">return</span> {
+      <span class="str">"text"</span>: text,
+      <span class="str">"entities"</span>: entities
+    }</pre>
+    </div>
+    <div>
+      <h3>Sample API Response</h3>
+      <pre><span class="cm">POST /predict</span>
+<span class="cm">Body: "Нұрсұлтан Назарбаев Астанада"</span>
+
+{
+  <span class="str">"text"</span>: <span class="str">"Нұрсұлтан Назарбаев Астанада"</span>,
+  <span class="str">"entities"</span>: [
+    {
+      <span class="str">"entity_group"</span>: <span class="str">"PERSON"</span>,
+      <span class="str">"word"</span>: <span class="str">"Нұрсұлтан Назарбаев"</span>,
+      <span class="str">"score"</span>: <span class="num">0.964</span>,
+      <span class="str">"start"</span>: <span class="num">0</span>, <span class="str">"end"</span>: <span class="num">19</span>
+    },
+    {
+      <span class="str">"entity_group"</span>: <span class="str">"GPE"</span>,
+      <span class="str">"word"</span>: <span class="str">"Астанада"</span>,
+      <span class="str">"score"</span>: <span class="num">0.952</span>,
+      <span class="str">"start"</span>: <span class="num">20</span>, <span class="str">"end"</span>: <span class="num">28</span>
+    }
+  ]
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 14: Challenges -->
+<div class="slide" data-n="14">
+  <h2>Challenges & Solutions</h2>
+  <div class="content">
+    <div class="three-col">
+      <div class="card">
+        <h3>🔴 Subword Alignment</h3>
+        <ul>
+          <li><strong>Problem:</strong> SentencePiece splits Kazakh agglutinative words into many subwords</li>
+          <li><strong>Solution:</strong> Implemented word_ids() mapping to propagate labels correctly to subword tokens</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🟡 Class Imbalance</h3>
+        <ul>
+          <li><strong>Problem:</strong> O-tags dominate (~80%); rare entities (ADAGE, ART) have few samples</li>
+          <li><strong>Solution:</strong> Used weighted loss function & focused evaluation on entity-level F1</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🟢 Low-Resource Language</h3>
+        <ul>
+          <li><strong>Problem:</strong> Limited Kazakh NLP tools & pretrained models</li>
+          <li><strong>Solution:</strong> Leveraged XLM-RoBERTa's multilingual pretraining for cross-lingual transfer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15: Reflection -->
+<div class="slide" data-n="15">
+  <h2>Personal Reflection</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>🎓 Skills Acquired</h3>
+      <ul>
+        <li>Deep understanding of <strong>transformer architectures</strong> and attention mechanisms</li>
+        <li>Practical experience with <strong>PyTorch training loops</strong> and GPU optimization</li>
+        <li>Learned <strong>Hugging Face</strong> ecosystem end-to-end</li>
+        <li>Built production-ready <strong>REST APIs</strong> with FastAPI</li>
+        <li>Improved debugging skills for <strong>ML pipeline failures</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>💡 Key Takeaways</h3>
+      <ul>
+        <li>Real-world ML projects require <strong>80% data engineering, 20% modeling</strong></li>
+        <li>Low-resource NLP demands creative use of <strong>transfer learning</strong></li>
+        <li>Industry code standards differ greatly from academic prototypes</li>
+        <li>Documentation and reproducibility are <strong>critical</strong> in team environments</li>
+        <li>Contributing to <strong>Kazakh language technology</strong> is personally meaningful</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16: Conclusion -->
+<div class="slide slide-title" data-n="16">
+  <h1>Conclusion</h1>
+  <p class="subtitle" style="max-width:800px;line-height:1.8;">
+    Successfully delivered an end-to-end NER pipeline for the Kazakh language,<br>
+    achieving <strong style="color:#10b981;">87.3% F1-Score</strong> on the KazNERD test set.<br><br>
+    The model is deployed as a REST API, enabling other departments<br>
+    to extract named entities from Kazakh text in real-time.
+  </p>
+  <div class="meta" style="margin-top:40px;">
+    <span>📧 Tazdarbay Meirzhan</span>
+    <span>🏫 Astana IT University</span>
+    <span>🙏 Thank you!</span>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+
+function showSlide(n) {
+  slides[current].classList.remove('active');
+  current = (n + total) % total;
+  slides[current].classList.add('active');
+  document.getElementById('slideNum').textContent = (current+1) + ' / ' + total;
+  document.getElementById('progress').style.width = ((current+1)/total*100) + '%';
+}
+
+function nextSlide() { showSlide(current + 1); }
+function prevSlide() { showSlide(current - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+});
+
+showSlide(0);
+</script>
+</body>
+</html>
